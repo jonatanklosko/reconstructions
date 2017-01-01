@@ -1,0 +1,8 @@
+# Node dependencies
+node_modules/
+
+# Built assets
+client/build/
+
+# NPM errors log
+npm-debug.log
