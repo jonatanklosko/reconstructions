@@ -6,8 +6,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
-const sourcePath = path.resolve(__dirname, 'client/app');
-const destinationPath = path.resolve(__dirname, 'client/build');
+const sourcePath = path.resolve(__dirname, 'app');
+const destinationPath = path.resolve(__dirname, 'build');
 
 const production = process.env.NODE_ENV === 'production';
 const test = process.env.NODE_ENV === 'test';

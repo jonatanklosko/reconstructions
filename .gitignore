@@ -2,7 +2,7 @@
 node_modules/
 
 # Built assets
-client/build/
+build/
 
 # NPM errors log
 npm-debug.log

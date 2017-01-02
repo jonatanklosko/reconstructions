@@ -15,7 +15,7 @@
   "scripts": {
     "build": "webpack --progress",
     "wdserver": "webpack-dev-server --inline --hot --open",
-    "gh-pages": "gh-pages -d client/build",
+    "gh-pages": "gh-pages -d build",
     "deploy": "NODE_ENV=production npm run build && npm run gh-pages",
     "lint": "eslint . --ignore-path .gitignore",
     "test:angular-unit": "karma start spec/angular-unit/karma.conf.js --single-run",
