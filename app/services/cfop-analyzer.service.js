@@ -111,10 +111,11 @@ export default class CfopAnalyzer {
     if(state === 'oriented') {
       return stickers.every(sticker => this.cube.isStickerSolved(sticker));
     } else if(state === 'permuted') {
-      /* Rotate the side 4 times and after each check if elements are solved. */
+      /* Check if elements are permuted relatively to each other. */
+      /* Rotate the side 4 times and after each check if elements are permuted. */
       return _.range(4).reduce(arePermuted => {
         this.cube.applyMoves(side);
-        return arePermuted || stickers.every(sticker => this.cube.isElementSolved(sticker));
+        return arePermuted || stickers.every(sticker => this.cube.isElementPermuted(sticker));
       }, false);
     } else {
       throw `Unrecognized state: '${state}'`;
@@ -133,8 +134,11 @@ export default class CfopAnalyzer {
     return this.checkElementsOnSide(llSide, 'corners', 'permuted');
   }
 
-  areLlEdgesPermuted(llSide) {
-    return this.checkElementsOnSide(llSide, 'edges', 'permuted');
+  areLlElementsRelativelySolved(llSide) {
+    return _.range(4).reduce(isSolved => {
+      this.cube.applyMoves(llSide);
+      return isSolved || this.cube.isSolved();
+    }, false);
   }
 
   /**
@@ -148,7 +152,7 @@ export default class CfopAnalyzer {
    *  6 - LL Edges are oriented
    *  7 - LL Corners are oriented
    *  8 - LL Corners are permuted
-   *  9 - LL Edges are permuted
+   *  9 - LL is permuted
    *  10 - The cube is solved
    *
    * Note: when a step is done then all previous ones are done as well.
@@ -160,7 +164,7 @@ export default class CfopAnalyzer {
     if(!this.areLlEdgesOrignted(llSide)) return 5;
     if(!this.areLlCornersOrignted(llSide)) return 6;
     if(!this.areLlCornersPermuted(llSide)) return 7;
-    if(!this.areLlEdgesPermuted(llSide)) return 8;
+    if(!this.areLlElementsRelativelySolved(llSide)) return 8;
     if(!this.cube.isSolved()) return 9;
     return 10;
   }

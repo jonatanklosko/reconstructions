@@ -136,6 +136,13 @@ export default class CubeService {
         let elementStickers = _.range(element.length).map(i => rotate(element, i));
         return elementStickers.every(sticker => this.isStickerSolved(sticker));
       }
+
+      isElementPermuted(element) {
+        let values = stickers => stickers.map(sticker => this.stickers[sticker]);
+        let elementStickers = _.range(element.length).map(i => rotate(element, i));
+        let centerStickers = element.split('');
+        return _.isEqual(values(elementStickers).sort(), values(centerStickers).sort());
+      }
     };
   }
 }
