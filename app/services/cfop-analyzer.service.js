@@ -187,7 +187,7 @@ export default class CfopAnalyzer {
     if(stepNumberBefore === 8 && stepNumber >= 9)   return 'EPLL';
     if(stepNumberBefore === 9 && stepNumber == 10)  return 'AUF';
 
-    if(0 < stepNumberBefore && stepNumber <= 7) {
+    if(0 < stepNumberBefore && stepNumberBefore <= 4) {
       let pairs = ['1st', '2nd', '3rd', '4th'];
       let name = `${pairs.slice(stepNumberBefore - 1, stepNumber - 1).join(' + ')} pair`;
       if(stepNumber === 6) name += " / EOLS";
