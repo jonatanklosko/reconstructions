@@ -48,7 +48,7 @@
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row ng-repeat="step in vm.steps">
+              <tr md-row ng-repeat="step in vm.steps" ng-hide="step.name === 'inspection'">
                 <td md-cell>{{ step.name }}</td>
                 <td md-cell ng-repeat="metric in vm.metrics">{{ step.movesCount[metric] }}</td>
               </tr>

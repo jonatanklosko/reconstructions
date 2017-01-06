@@ -38,13 +38,13 @@ export default class CfopAnalyzer {
     /* Handle ritations at the beginning - inspection. */
     let firstNonRotation = moves.findIndex(move => !this.MovesService.movesByType['ritation'].includes(move));
     if(firstNonRotation === -1) firstNonRotation = moves.length;
-    let [inspection, furtherMoves] = [moves.slice(0, firstNonRotation), moves.slice(firstNonRotation)];
+    let [inspection, solve] = [moves.slice(0, firstNonRotation), moves.slice(firstNonRotation)];
     if(inspection.length) {
       this.cube.applyMoves(inspection.join(' '));
       steps.push({ moves: inspection, name: 'inspection' });
     }
 
-    furtherMoves.forEach(move => {
+    solve.forEach(move => {
       this.cube.applyMoves(move);
       currentStep.push(move);
       let stepNumberAfterMove = this.currentStepNumber(getSavedLlSide());
@@ -68,7 +68,7 @@ export default class CfopAnalyzer {
     return {
       steps,
       isSolved: this.cube.isSolved(),
-      totalMoveCount: this.MovesService.countMoves(moves)
+      totalMoveCount: this.MovesService.countMoves(solve) /* Don't count rotations done during an inspection. */
     };
   }
 
