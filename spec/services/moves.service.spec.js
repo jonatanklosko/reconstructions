@@ -22,8 +22,8 @@ describe('MovesService', () => {
       expect(MovesService.stringToMoves("R'UL2MbF'")).toEqual(["R'", 'U', 'L2', 'M', 'b', "F'"]);
     });
 
-    it('attaches prime and two signs to their corresponding moves regerdless white characters', () => {
-      expect(MovesService.stringToMoves("R  'u 2M2'")).toEqual(["R'", 'u2', "M2'"]);
+    it('attaches prime, two and w signs to their corresponding moves regerdless white characters', () => {
+      expect(MovesService.stringToMoves("R  'u 2 L wM2'")).toEqual(["R'", 'u2', 'Lw', "M2'"]);
     });
   });
 

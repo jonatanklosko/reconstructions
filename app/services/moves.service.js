@@ -5,7 +5,7 @@ export default class MovesService {
     let expand = moves => _.flatten(moves.map(move => [move, `${move}'`, `${move}2`, `${move}2'`]));
     this.movesByType = {
       singleLayer: expand(['R', 'L', 'U', 'D', 'F', 'B']),
-      doubleLayer: expand(['r', 'l', 'u', 'd', 'f', 'b']),
+      doubleLayer: expand(['r', 'l', 'u', 'd', 'f', 'b', 'Rw', 'Lw', 'Uw', 'Dw', 'Fw', 'Bw']),
       slice: expand(['M', 'S', 'E']),
       ritation: expand(['y', 'z', 'x'])
     };
@@ -24,9 +24,9 @@ export default class MovesService {
     return string.split('').reduce((moves, char) => {
       if(this.moves.includes(char)) {
         moves.push(char);
-      } else if(moves.length && ["'", '2'].includes(char)) {
+      } else if(moves.length) {
         let lastMove = moves.pop();
-        if(!lastMove.endsWith("'") && !lastMove.endsWith(char)) {
+        if(this.moves.includes(lastMove + char)) {
           lastMove += char;
         }
         moves.push(lastMove);

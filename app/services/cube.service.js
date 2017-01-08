@@ -57,9 +57,9 @@ export default class CubeService {
             let singleLayerMove = doubleLayerMove.toUpperCase();
             let oppositeSliceMove = MovesService.moveInversion(correspondingSliceMove);
             let doubleSliceMove = `${correspondingSliceMove[0]}2`;
-            this.moves[doubleLayerMove] = doMovesFn(singleLayerMove, correspondingSliceMove);
-            this.moves[`${doubleLayerMove}'`] = doMovesFn(`${singleLayerMove}'`, oppositeSliceMove);
-            this.moves[`${doubleLayerMove}2`] = doMovesFn(`${singleLayerMove}2`, doubleSliceMove);
+            this.moves[doubleLayerMove] = this.moves[`${singleLayerMove}w`] = doMovesFn(singleLayerMove, correspondingSliceMove);
+            this.moves[`${doubleLayerMove}'`] = this.moves[`${singleLayerMove}w'`] = doMovesFn(`${singleLayerMove}'`, oppositeSliceMove);
+            this.moves[`${doubleLayerMove}2`] = this.moves[`${singleLayerMove}w2`] = doMovesFn(`${singleLayerMove}2`, doubleSliceMove);
           });
 
         [['y', 'u', "D"], ['z', 'f', "B"], ['x', 'r', "L"]]
