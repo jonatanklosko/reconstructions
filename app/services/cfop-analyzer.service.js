@@ -63,7 +63,7 @@ export default class CfopAnalyzer {
       steps.push({ moves: currentStep, name: 'the rest' });
     }
 
-    steps.forEach(step => step.movesCount = this.MovesService.countMoves(step.moves));
+    steps.forEach(step => step.moveCount = this.MovesService.countMoves(step.moves));
 
     return {
       steps,

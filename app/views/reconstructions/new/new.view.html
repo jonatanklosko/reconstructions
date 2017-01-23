@@ -7,7 +7,7 @@
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <cube-drawing moves="vm.scramble + ' ' + vm.solution"></cube-drawing>
+        <cube-drawing moves="vm.scramble + vm.solution"></cube-drawing>
       </md-card-content>
     </md-card>
   </div>
@@ -20,14 +20,16 @@
       </md-card-title>
       <md-card-content>
         <form>
-          <md-input-container>
-            <label for="time">Time</label>
-            <input type="text" name="time" ng-model="vm.time">
-          </md-input-container>
-          <md-input-container class="md-block">
-            <label for="scramble">Scramble</label>
-            <input type="text" name="scramble" ng-model="vm.scramble">
-          </md-input-container>
+          <div layout-gt-xs="row">
+            <md-input-container>
+              <label for="time">Time</label>
+              <input type="text" name="time" ng-model="vm.time">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+              <label for="scramble">Scramble</label>
+              <input type="text" name="scramble" ng-model="vm.scramble">
+            </md-input-container>
+          </div>
           <md-input-container class="md-block">
             <label for="solution">Solution</label>
             <textarea name="solution" ng-model="vm.solution" rows="4"></textarea>
@@ -35,7 +37,7 @@
           <md-checkbox class="md-primary" ng-model="vm.activeSupport">Use intelligent formatting</md-checkbox>
         </form>
         <md-button class="md-raised md-primary"
-                   ui-sref="reconstructions.show(vm.showParams)"
+                   ui-sref="reconstructions.show(vm.showParams())"
                    ng-disabled="!vm.isSolved || !vm.scramble || !vm.solution">
           Done
         </md-button>

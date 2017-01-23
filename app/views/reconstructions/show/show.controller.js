@@ -44,7 +44,7 @@ export default class ReconstructionsShowController {
     this.clipboard.copyText(text);
   }
 
-  calculateTps(movesCount, time) {
-    return _.round(movesCount / time, 2);
+  calculateTps(moveCount, time) {
+    return _.round(moveCount / time, 2);
   }
 }
