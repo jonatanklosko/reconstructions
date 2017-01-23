@@ -4,7 +4,7 @@ export default class ReconstructionsNewController {
 
     this.scramble = this.solution = '';
     this.activeSupport = true;
-    $scope.$watch('[vm.scramble, vm.solution, vm.activeSupport]', ([scramble, solution, activeSupport]) => {
+    $scope.$watch('[vm.time, vm.scramble, vm.solution, vm.activeSupport]', ([time, scramble, solution, activeSupport]) => {
       let { steps, isSolved } = CfopAnalyzer.analyzeSolution(scramble, solution);
       if(activeSupport) {
         this.scramble = MovesService.stringToMoves(scramble).join(' ');
@@ -12,7 +12,8 @@ export default class ReconstructionsNewController {
       }
       this.showParams = {
         scramble: MovesService.shrink(scramble),
-        solution: MovesService.shrink(solution)
+        solution: MovesService.shrink(solution),
+        time
       };
       this.isSolved = isSolved;
     });

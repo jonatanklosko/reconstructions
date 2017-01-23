@@ -16,7 +16,7 @@ export default ($stateProvider) => {
       controllerAs: 'vm'
     })
     .state('reconstructions.show', {
-      url: '/show?scramble&solution',
+      url: '/show?scramble&solution&time',
       template: showTemplate,
       controller: 'ReconstructionsShowController',
       controllerAs: 'vm'

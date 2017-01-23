@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export default class ReconstructionsShowController {
   constructor($stateParams, CfopAnalyzer, MovesService, $httpParamSerializer, clipboard, $location) {
     'ngInject';
@@ -5,13 +7,14 @@ export default class ReconstructionsShowController {
     this.clipboard = clipboard;
     this.$location = $location;
 
-    let { scramble, solution } = $stateParams;
+    let { scramble, solution, time } = $stateParams;
     let { steps, totalMoveCount } = CfopAnalyzer.analyzeSolution(scramble, solution);
     this.steps = steps;
     this.totalMoveCount = totalMoveCount;
 
     this.scramble = MovesService.stringToMoves(scramble).join(' ');
     this.solution = MovesService.stringToMoves(solution).join(' ');
+    this.time = _.toNumber(time);
 
     this.formatedSolution = this.steps.map(step => {
       return `${step.moves.join(' ')} // ${step.name}`;
@@ -34,6 +37,14 @@ export default class ReconstructionsShowController {
   }
 
   copySolution() {
-    this.clipboard.copyText(`Scramble: ${this.scramble}\n\n${this.formatedSolution}`);
+    let text = `Scramble: ${this.scramble}\n\n${this.formatedSolution}`;
+    if(this.time) {
+      text = `Time: ${this.time}\n${text}`;
+    }
+    this.clipboard.copyText(text);
+  }
+
+  calculateTps(movesCount, time) {
+    return _.round(movesCount / time, 2);
   }
 }

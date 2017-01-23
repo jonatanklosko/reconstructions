@@ -7,7 +7,8 @@
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <p><span>Scramble: </span><span>{{ vm.scramble }}</span></p>
+        <p ng-if="vm.time">Time: {{ vm.time }}</p>
+        <p>Scramble: {{ vm.scramble }}</p>
         <md-divider></md-divider>
         <p class="step" ng-repeat="step in vm.steps">
           <span class="moves">{{ step.moves.join(' ') }}</span>
@@ -39,26 +40,49 @@
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <md-table-container>
-          <table md-table>
-            <thead md-head>
-              <tr md-row>
-                <th md-column>Step</th>
-                <th md-column ng-repeat="metric in vm.metrics">{{ metric | uppercase }}</th>
-              </tr>
-            </thead>
-            <tbody md-body>
-              <tr md-row ng-repeat="step in vm.steps" ng-hide="step.name === 'inspection'">
-                <td md-cell>{{ step.name }}</td>
-                <td md-cell ng-repeat="metric in vm.metrics">{{ step.movesCount[metric] }}</td>
-              </tr>
-              <tr md-row class="move-count-summary">
-                <td md-cell>Total</td>
-                <td md-cell ng-repeat="metric in vm.metrics">{{ vm.totalMoveCount[metric] }}</td>
-              </tr>
-            </body>
-          </table>
-        </md-table-container>
+        <md-tabs md-dynamic-height>
+          <md-tab label="Move count">
+            <md-table-container>
+              <table md-table>
+                <thead md-head>
+                  <tr md-row>
+                    <th md-column>Step</th>
+                    <th md-column ng-repeat="metric in vm.metrics">{{ metric | uppercase }}</th>
+                  </tr>
+                </thead>
+                <tbody md-body>
+                  <tr md-row ng-repeat="step in vm.steps" ng-hide="step.name === 'inspection'">
+                    <td md-cell>{{ step.name }}</td>
+                    <td md-cell ng-repeat="metric in vm.metrics">{{ step.movesCount[metric] }}</td>
+                  </tr>
+                  <tr md-row class="move-count-summary">
+                    <td md-cell>Total</td>
+                    <td md-cell ng-repeat="metric in vm.metrics">{{ vm.totalMoveCount[metric] }}</td>
+                  </tr>
+                </body>
+              </table>
+            </md-table-container>
+          </md-tab>
+          <md-tab label="TPS" ng-if="vm.time">
+            <md-table-container>
+              <table md-table>
+                <thead md-head>
+                  <tr md-row>
+                    <th md-column ng-repeat="metric in vm.metrics">
+                      {{ metric.replace('tm', 'tps') | uppercase }}
+                      <md-tooltip md-direction="left">TPS calculated using {{ metric | uppercase }}</md-tooltip>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody md-body>
+                  <tr md-row>
+                    <td md-cell ng-repeat="metric in vm.metrics">{{ vm.calculateTps(vm.totalMoveCount[metric], vm.time) }}</td>
+                  </tr>
+                </body>
+              </table>
+            </md-table-container>
+          </md-tab>
+        </md-tabs>
       </md-card-content>
     </md-card>
   </div>
