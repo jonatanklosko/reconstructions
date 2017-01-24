@@ -14,6 +14,7 @@ import config from './app.config';
 import services from './services';
 import directives from './directives';
 import views from './views';
+import constants from './constants';
 
 angular
   .module('app', [
@@ -22,6 +23,7 @@ angular
     ngMaterialDataTable,
     services,
     directives,
-    views
+    views,
+    constants
   ])
   .config(config);

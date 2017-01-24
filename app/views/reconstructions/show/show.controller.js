@@ -1,11 +1,16 @@
 import * as _ from 'lodash';
 
 export default class ReconstructionsShowController {
-  constructor($stateParams, CfopAnalyzer, MovesService, $httpParamSerializer, clipboard, $location) {
+  constructor($stateParams, CfopAnalyzer, MovesService, $httpParamSerializer, clipboard, $location, $http, URLSHORTENER_URL) {
     'ngInject';
 
     this.clipboard = clipboard;
     this.$location = $location;
+
+    let currentUrl = $location.absUrl();
+    this.shortUrl = currentUrl; /* Assign the full url temporarily, before the short one is fetched or in case something goes wrong. */
+    $http.post(URLSHORTENER_URL, { longUrl: currentUrl })
+      .then(response => this.shortUrl = response.data.id);
 
     let { scramble, solution, time } = $stateParams;
     let { steps, totalMoveCount } = CfopAnalyzer.analyzeSolution(scramble, solution);
@@ -32,8 +37,7 @@ export default class ReconstructionsShowController {
   }
 
   copyUrl() {
-    let url = this.$location.absUrl();
-    this.clipboard.copyText(url);
+    this.clipboard.copyText(this.shortUrl);
   }
 
   copySolution() {
