@@ -20,13 +20,17 @@
             <md-tooltip md-direction="top">See animation</md-tooltip>
             <md-icon>movie</md-icon>
           </md-button>
-          <md-button class="md-icon-button" ng-click="vm.copyUrl()" target="_blank">
+          <md-button class="md-icon-button" ng-click="vm.copyUrl()">
             <md-tooltip md-direction="top">Copy URL</md-tooltip>
             <md-icon>link</md-icon>
           </md-button>
-          <md-button class="md-icon-button" ng-click="vm.copySolution()" target="_blank">
+          <md-button class="md-icon-button" ng-click="vm.copySolution()">
             <md-tooltip md-direction="top">Copy solution</md-tooltip>
             <md-icon>content_copy</md-icon>
+          </md-button>
+          <md-button class="md-icon-button" ui-sref="reconstructions.new(vm.$stateParams)">
+            <md-tooltip md-direction="top">Edit</md-tooltip>
+            <md-icon>mode_edit</md-icon>
           </md-button>
         </div>
       </md-card-content>

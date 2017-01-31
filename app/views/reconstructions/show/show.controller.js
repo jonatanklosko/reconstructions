@@ -6,6 +6,7 @@ export default class ReconstructionsShowController {
 
     this.clipboard = clipboard;
     this.$location = $location;
+    this.$stateParams = $stateParams;
 
     let currentUrl = $location.absUrl();
     this.shortUrl = currentUrl; /* Assign the full url temporarily, before the short one is fetched or in case something goes wrong. */

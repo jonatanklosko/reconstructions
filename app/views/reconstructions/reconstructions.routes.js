@@ -10,7 +10,7 @@ export default ($stateProvider) => {
       template: '<ui-view></ui-view>'
     })
     .state('reconstructions.new', {
-      url: '/',
+      url: '/?scramble&solution&time',
       template: newTemplate,
       controller: 'ReconstructionsNewController',
       controllerAs: 'vm'

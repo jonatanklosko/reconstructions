@@ -1,10 +1,11 @@
 export default class ReconstructionsNewController {
-  constructor($scope, MovesService, CfopAnalyzer) {
+  constructor($stateParams, $scope, MovesService, CfopAnalyzer) {
     'ngInject';
 
     this.MovesService = MovesService;
 
-    this.scramble = this.solution = '';
+    let { scramble = '', solution = '', time = '' } = $stateParams;
+    Object.assign(this, { scramble, solution, time });
     this.activeSupport = true;
     $scope.$watch('[vm.scramble, vm.solution, vm.activeSupport]', ([scramble, solution, activeSupport]) => {
       let { steps, isSolved } = CfopAnalyzer.analyzeSolution(scramble, solution);
