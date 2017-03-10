@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-export default class MovesService {
+class Moves {
   constructor() {
     let expand = moves => _.flatten(moves.map(move => [move, `${move}'`, `${move}2`, `${move}2'`]));
     this.movesByType = {
@@ -59,3 +59,5 @@ export default class MovesService {
     return this.stringToMoves(string).join('');
   }
 }
+
+export default new Moves();

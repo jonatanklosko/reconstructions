@@ -1,5 +1,6 @@
 import template from './cube-drawing.template.html';
 import * as _ from 'lodash';
+import Cube from '../lib/cube';
 
 export default () => {
   return {
@@ -9,10 +10,10 @@ export default () => {
       moves: '='
     },
     controller: class CubeDrawingController {
-      constructor($scope, $element, CubeService) {
+      constructor($scope, $element) {
         'ngInject';
         this.$element = $element;
-        this.cube = new CubeService.Cube();
+        this.cube = new Cube();
         $scope.$watch('moves', moves => {
           this.cube.reset();
           this.cube.applyMoves(moves);

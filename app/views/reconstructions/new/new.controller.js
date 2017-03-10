@@ -1,8 +1,9 @@
-export default class ReconstructionsNewController {
-  constructor($stateParams, $scope, MovesService, CfopAnalyzer) {
-    'ngInject';
+import Moves from '../../../lib/moves';
+import CfopAnalyzer from '../../../lib/cfop-analyzer';
 
-    this.MovesService = MovesService;
+export default class ReconstructionsNewController {
+  constructor($stateParams, $scope) {
+    'ngInject';
 
     let { scramble = '', solution = '', time = '' } = $stateParams;
     Object.assign(this, { scramble, solution, time });
@@ -10,7 +11,7 @@ export default class ReconstructionsNewController {
     $scope.$watch('[vm.scramble, vm.solution, vm.activeSupport]', ([scramble, solution, activeSupport]) => {
       let { steps, isSolved } = CfopAnalyzer.analyzeSolution(scramble, solution);
       if(activeSupport) {
-        this.scramble = MovesService.stringToMoves(scramble).join(' ');
+        this.scramble = Moves.stringToMoves(scramble).join(' ');
         this.solution = steps.map(step => step.moves.join(' ')).join('\n');
       }
       this.isSolved = isSolved;
@@ -20,8 +21,8 @@ export default class ReconstructionsNewController {
 
   showParams() {
     return {
-      scramble: this.MovesService.shrink(this.scramble),
-      solution: this.MovesService.shrink(this.solution),
+      scramble: Moves.shrink(this.scramble),
+      solution: Moves.shrink(this.solution),
       time: this.time
     };
   }

@@ -1,7 +1,9 @@
 import * as _ from 'lodash';
+import Moves from '../../../lib/moves';
+import CfopAnalyzer from '../../../lib/cfop-analyzer';
 
 export default class ReconstructionsShowController {
-  constructor($stateParams, CfopAnalyzer, MovesService, $httpParamSerializer, clipboard, $location, $http, URLSHORTENER_URL) {
+  constructor($stateParams, $httpParamSerializer, clipboard, $location, $http, URLSHORTENER_URL) {
     'ngInject';
 
     this.clipboard = clipboard;
@@ -18,8 +20,8 @@ export default class ReconstructionsShowController {
     this.steps = steps;
     this.totalMoveCount = totalMoveCount;
 
-    this.scramble = MovesService.stringToMoves(scramble).join(' ');
-    this.solution = MovesService.stringToMoves(solution).join(' ');
+    this.scramble = Moves.stringToMoves(scramble).join(' ');
+    this.solution = Moves.stringToMoves(solution).join(' ');
     this.time = _.toNumber(time);
 
     this.formatedSolution = this.steps.map(step => {
@@ -34,7 +36,7 @@ export default class ReconstructionsShowController {
     };
     this.animationUrl = `https://alg.cubing.net/?${$httpParamSerializer(animationParams)}`;
 
-    this.metrics = Object.keys(MovesService.metrics);
+    this.metrics = Object.keys(Moves.metrics);
   }
 
   copyUrl() {

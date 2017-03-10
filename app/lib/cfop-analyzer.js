@@ -1,12 +1,10 @@
 import * as _ from 'lodash';
+import Moves from './moves';
+import Cube from './cube';
 
-export default class CfopAnalyzer {
-  constructor(MovesService, CubeService) {
-    'ngInject';
-
-    this.MovesService = MovesService;
-
-    this.cube = new CubeService.Cube();
+class CfopAnalyzer {
+  constructor() {
+    this.cube = new Cube();
   }
 
   analyzeSolution(scramble, solution) {
@@ -33,10 +31,10 @@ export default class CfopAnalyzer {
     let stepNumber = this.currentStepNumber(getSavedLlSide());
     let steps = [];
     let currentStep = [];
-    let moves = this.MovesService.stringToMoves(solution);
+    let moves = Moves.stringToMoves(solution);
 
     /* Handle ritations at the beginning - inspection. */
-    let firstNonRotation = moves.findIndex(move => !this.MovesService.movesByType['ritation'].includes(move));
+    let firstNonRotation = moves.findIndex(move => !Moves.movesByType['ritation'].includes(move));
     if(firstNonRotation === -1) firstNonRotation = moves.length;
     let [inspection, solve] = [moves.slice(0, firstNonRotation), moves.slice(firstNonRotation)];
     if(inspection.length) {
@@ -63,12 +61,12 @@ export default class CfopAnalyzer {
       steps.push({ moves: currentStep, name: 'the rest' });
     }
 
-    steps.forEach(step => step.moveCount = this.MovesService.countMoves(step.moves));
+    steps.forEach(step => step.moveCount = Moves.countMoves(step.moves));
 
     return {
       steps,
       isSolved: this.cube.isSolved(),
-      totalMoveCount: this.MovesService.countMoves(solve) /* Don't count rotations done during an inspection. */
+      totalMoveCount: Moves.countMoves(solve) /* Don't count rotations done during an inspection. */
     };
   }
 
@@ -196,3 +194,5 @@ export default class CfopAnalyzer {
     }
   }
 }
+
+export default new CfopAnalyzer();
