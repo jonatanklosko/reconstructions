@@ -1,75 +1,7 @@
+import SolutionAnalyzer from './solution-analyzer';
 import * as _ from 'lodash';
-import Moves from './moves';
-import Cube from './cube';
 
-class CfopAnalyzer {
-  constructor() {
-    this.cube = new Cube();
-  }
-
-  analyzeSolution(scramble, solution) {
-    this.cube.reset();
-    this.cube.applyMoves(scramble);
-
-    /* After F2L is done, save the value of the cross center to determine the corresponding LL side dynamically.
-       Note: it's necessary to find the LL center dynamically rather than saving it because of rotations which change it. */
-    let savedLlCenterValue = null;
-    let getSavedLlSide = () => {
-      if(!savedLlCenterValue) {
-        let currentLlSide = this.getLlSide();
-        if(currentLlSide) {
-          savedLlCenterValue = this.cube.stickers[currentLlSide];
-        }
-      }
-      if(savedLlCenterValue) {
-        return Object.keys(this.cube.stickers).find(sticker => {
-          return this.cube.isCenterSticker(sticker) && this.cube.stickers[sticker] === savedLlCenterValue;
-        });
-      }
-    };
-
-    let stepNumber = this.currentStepNumber(getSavedLlSide());
-    let steps = [];
-    let currentStep = [];
-    let moves = Moves.stringToMoves(solution);
-
-    /* Handle ritations at the beginning - inspection. */
-    let firstNonRotation = moves.findIndex(move => !Moves.movesByType['ritation'].includes(move));
-    if(firstNonRotation === -1) firstNonRotation = moves.length;
-    let [inspection, solve] = [moves.slice(0, firstNonRotation), moves.slice(firstNonRotation)];
-    if(inspection.length) {
-      this.cube.applyMoves(inspection.join(' '));
-      steps.push({ moves: inspection, name: 'inspection' });
-    }
-
-    solve.forEach(move => {
-      this.cube.applyMoves(move);
-      currentStep.push(move);
-      let stepNumberAfterMove = this.currentStepNumber(getSavedLlSide());
-      if(stepNumberAfterMove > stepNumber) {
-        steps.push({
-          moves: currentStep,
-          name: this.getStepName(stepNumber, stepNumberAfterMove)
-        });
-        stepNumber = stepNumberAfterMove;
-        currentStep = [];
-      }
-    });
-
-    /* Solution can left the cube unsolved. Include the rest of the moves in the result as well. */
-    if(currentStep.length) {
-      steps.push({ moves: currentStep, name: 'the rest' });
-    }
-
-    steps.forEach(step => step.moveCount = Moves.countMoves(step.moves));
-
-    return {
-      steps,
-      isSolved: this.cube.isSolved(),
-      totalMoveCount: Moves.countMoves(solve) /* Don't count rotations done during an inspection. */
-    };
-  }
-
+class CfopAnalyzer extends SolutionAnalyzer {
   sidesWithCrossSolved() {
     return Object.keys(this.cube.sides).filter(side => {
       let edgeStickersAroundCenter = Object.keys(this.cube.stickers).filter(sticker => {
@@ -93,13 +25,6 @@ class CfopAnalyzer {
       };
     });
     return _.maxBy(solvedSlotsPerCross, 'count') || { count: 0 };
-  }
-
-  getLlSide() {
-    let { side, count } = this.solvedSlots();
-    let oppositeSide = { 'U': 'D', 'D': 'U', 'R': 'L', 'L': 'R', 'F': 'B', 'B': 'F' }[side];
-    /* When F2L is solved on a side, then assume that the LL side is the opposite one. */
-    return count === 4 ? oppositeSide : null;
   }
 
   checkElementsOnSide(side, elementsType, state) {
@@ -155,10 +80,19 @@ class CfopAnalyzer {
    *
    * Note: when a step is done then all previous ones are done as well.
    */
-  currentStepNumber(llSide) {
+  currentStepNumber() {
     if(this.sidesWithCrossSolved().length === 0) return 0;
-    let { count: slotsCount } = this.solvedSlots();
+    let { count: slotsCount, side } = this.solvedSlots();
     if(slotsCount < 4) return 1 + slotsCount;
+
+    /* After F2L is done, save the value of the cross center to determine the corresponding LL side dynamically.
+       Note: it's necessary to find the LL center dynamically rather than saving it because of possible rotations which change it. */
+    let currentLlSide = this.opposite[side];
+    this.savedLlCenterValue = this.savedLlCenterValue || this.cube.stickers[currentLlSide];
+    let llSide = _.keys(this.cube.stickers)
+      .filter(sticker => this.cube.isCenterSticker(sticker))
+      .find(sticker => this.cube.stickers[sticker] === this.savedLlCenterValue);
+
     if(!this.areLlEdgesOrignted(llSide)) return 5;
     if(!this.areLlCornersOrignted(llSide)) return 6;
     if(!this.areLlCornersPermuted(llSide)) return 7;

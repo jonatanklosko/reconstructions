@@ -1,13 +1,6 @@
 import * as _ from 'lodash';
+import { rotate } from './utils';
 import Moves from './moves';
-
-let rotate = (array, offset) => {
-  if(typeof array === 'string') return rotate(array.split(''), offset).join('');
-  let copy = array.slice(0);
-  while(offset < 0) offset += array.length;
-  copy.push(...copy.splice(0, offset));
-  return copy;
-};
 
 export default class Cube {
   constructor() {
@@ -109,6 +102,10 @@ export default class Cube {
     }
   }
 
+  stickerSide(sticker) {
+    return sticker[0];
+  }
+
   isCenterSticker(sticker) {
     return this.stickerType(sticker) === 'center';
   }
@@ -123,21 +120,24 @@ export default class Cube {
 
   isStickerSolved(sticker) {
     /* A sticker is considered to be solved when it has the same value as a center on the side. */
-    return this.stickers[sticker] === this.stickers[sticker[0]];
+    return this.stickers[sticker] === this.stickers[this.stickerSide(sticker)];
   }
 
   isElementSolved(element) {
     /* Element is considered solved when all its stickers are solved.
        E.g. URF corner is solved when URF, RFU and FUR stickers are solved.
             UF edge is solved when UF and FU stickers are solved. */
-    let elementStickers = _.range(element.length).map(i => rotate(element, i));
-    return elementStickers.every(sticker => this.isStickerSolved(sticker));
+    return this.elementStickers(element).every(sticker => this.isStickerSolved(sticker));
   }
 
   isElementPermuted(element) {
     let values = stickers => stickers.map(sticker => this.stickers[sticker]);
-    let elementStickers = _.range(element.length).map(i => rotate(element, i));
+    let elementStickers = this.elementStickers(element);
     let centerStickers = element.split('');
     return _.isEqual(values(elementStickers).sort(), values(centerStickers).sort());
+  }
+
+  elementStickers(element) {
+    return _.range(element.length).map(i => rotate(element, i));
   }
 }
