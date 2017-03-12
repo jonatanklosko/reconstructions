@@ -3,28 +3,22 @@ import * as _ from 'lodash';
 
 class CfopAnalyzer extends SolutionAnalyzer {
   sidesWithCrossSolved() {
-    return Object.keys(this.cube.sides).filter(side => {
-      let edgeStickersAroundCenter = Object.keys(this.cube.stickers).filter(sticker => {
-        return sticker.startsWith(side) && this.cube.isEdgeSticker(sticker);
-      });
-      return edgeStickersAroundCenter.every(sticker => this.cube.isElementSolved(sticker));
-    });
+    return _.keys(_.pickBy(this.cube.sides, stickers => {
+      return stickers.filter(sticker => this.cube.isEdgeSticker(sticker))
+                     .every(sticker => this.cube.isElementSolved(sticker));
+    }));
   }
 
   solvedSlots() {
     let solvedSlotsPerCross = this.sidesWithCrossSolved().map(side => {
-      let solvedSlotsAroundCross = Object.keys(this.cube.stickers).filter(sticker => {
-        return sticker.startsWith(side)
-            && this.cube.isCornerSticker(sticker)
+      let solvedSlotsAroundCross = this.cube.sides[side].filter(sticker => {
+        return this.cube.isCornerSticker(sticker)
             && this.cube.isElementSolved(sticker) /* Corner of the slot */
             && this.cube.isElementSolved(sticker.slice(1)); /* Corresponding edge of the slot */
       });
-      return {
-        side: side,
-        count: solvedSlotsAroundCross.length
-      };
+      return { side, count: solvedSlotsAroundCross.length };
     });
-    return _.maxBy(solvedSlotsPerCross, 'count') || { count: 0 };
+    return _.maxBy(solvedSlotsPerCross, 'count') || { side: null, count: 0 };
   }
 
   checkElementsOnSide(side, elementsType, state) {
@@ -45,11 +39,11 @@ class CfopAnalyzer extends SolutionAnalyzer {
     }
   }
 
-  areLlEdgesOrignted(llSide) {
+  areLlEdgesOriented(llSide) {
     return this.checkElementsOnSide(llSide, 'edges', 'oriented');
   }
 
-  areLlCornersOrignted(llSide) {
+  areLlCornersOriented(llSide) {
     return this.checkElementsOnSide(llSide, 'corners', 'oriented');
   }
 
@@ -93,8 +87,8 @@ class CfopAnalyzer extends SolutionAnalyzer {
       .filter(sticker => this.cube.isCenterSticker(sticker))
       .find(sticker => this.cube.stickers[sticker] === this.savedLlCenterValue);
 
-    if(!this.areLlEdgesOrignted(llSide)) return 5;
-    if(!this.areLlCornersOrignted(llSide)) return 6;
+    if(!this.areLlEdgesOriented(llSide)) return 5;
+    if(!this.areLlCornersOriented(llSide)) return 6;
     if(!this.areLlCornersPermuted(llSide)) return 7;
     if(!this.areLlElementsRelativelySolved(llSide)) return 8;
     if(!this.cube.isSolved()) return 9;
