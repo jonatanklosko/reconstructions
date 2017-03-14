@@ -5,3 +5,7 @@ export function rotate(array, offset) {
   copy.push(...copy.splice(0, offset));
   return copy;
 }
+
+export function reverse(string) {
+  return string.split('').reverse().join('');
+}

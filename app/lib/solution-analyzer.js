@@ -1,5 +1,6 @@
 import Moves from './moves';
 import Cube from './cube';
+import { reverse } from './utils';
 
 export default class SolutionAnalyzer {
   constructor() {
@@ -52,5 +53,16 @@ export default class SolutionAnalyzer {
       isSolved: this.cube.isSolved(),
       totalMoveCount: Moves.countMoves(solve) /* Don't count rotations done during an inspection. */
     };
+  }
+
+  allEdgesOriented() {
+    // See: https://www.speedsolving.com/wiki/index.php/EOLine#EO_Detection
+    let stickers = ['UR', 'UF', 'UL', 'UB', 'DR', 'DF', 'DL', 'DB', 'FR', 'FL', 'BR', 'BL'];
+    let value = sticker => this.cube.stickers[sticker];
+    let hasSameValueAs = (stickers, sticker) => stickers.map(value).includes(value(sticker));
+    let anyMisoriented = stickers.some(sticker => {
+      return hasSameValueAs(['L', 'R'], sticker) || (hasSameValueAs(['F', 'B'], sticker) && hasSameValueAs(['D', 'U'], reverse(sticker)));
+    });
+    return !anyMisoriented;
   }
 }

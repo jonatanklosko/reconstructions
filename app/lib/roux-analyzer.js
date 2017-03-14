@@ -34,15 +34,7 @@ class RouxAnalyzer extends SolutionAnalyzer {
   }
 
   eo() {
-    return _.chain(this.cube.sides)
-      .pick(['U', 'D'])
-      .values()
-      .flatten()
-      .filter(sticker => this.cube.isEdgeSticker(sticker))
-      .map(sticker => this.cube.stickers[sticker])
-      .uniq()
-      .thru(([first, second, ...other]) => _.isEmpty(other) && first === this.opposite[second])
-      .value();
+    return this.allEdgesOriented();
   }
 
   ulur() {
