@@ -2,6 +2,11 @@ import SolutionAnalyzer from './solution-analyzer';
 import * as _ from 'lodash';
 
 export default class CfopAnalyzer extends SolutionAnalyzer {
+  analyzeSolution(...args) {
+    this.savedLlCenterValue = null;
+    return super.analyzeSolution(...args);
+  }
+
   sidesWithCrossSolved() {
     return _.keys(_.pickBy(this.cube.sides, stickers => {
       return stickers.filter(sticker => this.cube.isEdgeSticker(sticker))
