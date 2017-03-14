@@ -130,13 +130,6 @@ export default class Cube {
     return this.elementStickers(element).every(sticker => this.isStickerSolved(sticker));
   }
 
-  isElementPermuted(element) {
-    let values = stickers => stickers.map(sticker => this.stickers[sticker]);
-    let elementStickers = this.elementStickers(element);
-    let centerStickers = element.split('');
-    return _.isEqual(values(elementStickers).sort(), values(centerStickers).sort());
-  }
-
   elementStickers(element) {
     return _.range(element.length).map(i => rotate(element, i));
   }

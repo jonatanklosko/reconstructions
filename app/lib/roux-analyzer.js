@@ -12,25 +12,12 @@ export default class RouxAnalyzer extends SolutionAnalyzer {
         return _.chain([...edges, side, corner])
           .flatMap(element => this.cube.elementStickers(element))
           .groupBy(sticker => this.cube.stickerSide(sticker))
-          .map(stickers => stickers.map(sticker => this.cube.stickers[sticker])) /* Values per side. */
-          .map(_.uniq)
-          .every(uniqeValuesOnSide => uniqeValuesOnSide.length === 1)
+          .every(stickers => this.haveSameValue(stickers))
           .value();
       });
     });
 
     return _.omitBy(squaresPerSide, _.isEmpty);
-  }
-
-  cornersSolved(side) {
-    return _.chain(this.cube.sides[side])
-      .filter(sticker => this.cube.isCornerSticker(sticker))
-      .flatMap(corner => this.cube.elementStickers(corner))
-      .groupBy(sticker => this.cube.stickerSide(sticker))
-      .map(stickers => stickers.map(sticker => this.cube.stickers[sticker])) /* Values per side. */
-      .map(_.uniq)
-      .every(uniqeValuesOnSide => uniqeValuesOnSide.length === 1)
-      .value();
   }
 
   eo() {
@@ -75,7 +62,7 @@ export default class RouxAnalyzer extends SolutionAnalyzer {
       return corners.filter(corner => corner.includes('D')).length >= 2;
     });
     if(!f2bDone) return 3;
-    if(!this.cornersSolved('U')) return 4;
+    if(!this.elementsSolved('U', sticker => this.cube.isCornerSticker(sticker))) return 4;
     if(!this.eo()) return 5;
     if(!this.ulur()) return 6;
     if(!this.cube.isSolved()) return 7;

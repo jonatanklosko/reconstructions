@@ -21,41 +21,20 @@ export default class CfopAnalyzer extends SolutionAnalyzer {
     return _.maxBy(solvedSlotsPerCross, 'count') || { side: null, count: 0 };
   }
 
-  checkElementsOnSide(side, elementsType, state) {
-    let stickers = Object.keys(this.cube.stickers)
-      .filter(sticker => sticker.startsWith(side) && _.trim(elementsType, 's') === this.cube.stickerType(sticker));
-
-    if(state === 'oriented') {
-      return stickers.every(sticker => this.cube.isStickerSolved(sticker));
-    } else if(state === 'permuted') {
-      /* Check if elements are permuted relatively to each other. */
-      /* Rotate the side 4 times and after each check if elements are permuted. */
-      return _.range(4).reduce(arePermuted => {
-        this.cube.applyMoves(side);
-        return arePermuted || stickers.every(sticker => this.cube.isElementPermuted(sticker));
-      }, false);
-    } else {
-      throw `Unrecognized state: '${state}'`;
-    }
-  }
-
   areLlEdgesOriented(llSide) {
-    return this.checkElementsOnSide(llSide, 'edges', 'oriented');
+    return this.haveSameValue(this.cube.sides[llSide].filter(sticker => this.cube.isEdgeSticker(sticker)));
   }
 
   areLlCornersOriented(llSide) {
-    return this.checkElementsOnSide(llSide, 'corners', 'oriented');
+    return this.haveSameValue(this.cube.sides[llSide].filter(sticker => this.cube.isCornerSticker(sticker)));
   }
 
   areLlCornersPermuted(llSide) {
-    return this.checkElementsOnSide(llSide, 'corners', 'permuted');
+    return this.elementsSolved(llSide, sticker => this.cube.isCornerSticker(sticker));
   }
 
   areLlElementsRelativelySolved(llSide) {
-    return _.range(4).reduce(isSolved => {
-      this.cube.applyMoves(llSide);
-      return isSolved || this.cube.isSolved();
-    }, false);
+    return this.elementsSolved(llSide);
   }
 
   /**

@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import Moves from './moves';
 import Cube from './cube';
 import { reverse } from './utils';
@@ -64,5 +65,18 @@ export default class SolutionAnalyzer {
       return hasSameValueAs(['L', 'R'], sticker) || (hasSameValueAs(['F', 'B'], sticker) && hasSameValueAs(['D', 'U'], reverse(sticker)));
     });
     return !anyMisoriented;
+  }
+
+  haveSameValue(stickers) {
+    return _.uniq(stickers.map(sticker => this.cube.stickers[sticker])).length === 1;
+  }
+
+  elementsSolved(side, stickerPredicate = () => true) {
+    return _.chain(this.cube.sides[side])
+      .filter(stickerPredicate)
+      .flatMap(corner => this.cube.elementStickers(corner))
+      .groupBy(sticker => this.cube.stickerSide(sticker))
+      .every(stickersOnSide => this.haveSameValue(stickersOnSide))
+      .value();
   }
 }
