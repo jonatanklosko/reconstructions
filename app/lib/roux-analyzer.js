@@ -73,7 +73,7 @@ export default class RouxAnalyzer extends SolutionAnalyzer {
     if(stepNumber === 1)  return 'First Square';
     if(stepNumber === 2)  return 'First Block';
     if(stepNumber === 3)  return 'Second Square';
-    if(stepNumber === 4)  return 'Second Block';
+    if(stepNumberBefore < 4 && stepNumber >= 4)  return 'Second Block';
     if(stepNumberBefore === 4) return 'CMLL';
     if(stepNumberBefore === 5 && stepNumber === 6) return 'EO';
     if(stepNumberBefore === 5 && stepNumber === 7) return 'EO + UL/UR';
