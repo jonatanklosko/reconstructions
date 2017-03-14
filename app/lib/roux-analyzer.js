@@ -53,14 +53,13 @@ export default class RouxAnalyzer extends SolutionAnalyzer {
    * Note: when a step is done then all previous ones are done as well.
    */
   currentStepNumber() {
-    let squares = this.solvedSquares();
+    let squares = _.pick(this.solvedSquares(), ['L', 'R']);
     if(_.isEmpty(squares)) return 0;
-    let blocks = _.pickBy(squares, corners => corners.length >= 2);
-    if(_.isEmpty(blocks)) return 1;
-    if(!_.some(blocks, (corners, side) => squares[this.opposite[side]])) return 2;
-    let f2bDone = _.every(_.pick(squares, ['L', 'R']), corners => {
-      return corners.filter(corner => corner.includes('D')).length >= 2;
-    });
+    /* A block means two squares next to each other with both corners placed on the D side. (Also note that only L and R are takne into account.) */
+    let sidesWithBlock = _.keys(_.pickBy(squares, corners => corners.filter(corner => corner.includes('D')).length === 2));
+    if(_.isEmpty(sidesWithBlock)) return 1;
+    if(!_.some(sidesWithBlock, side => squares[this.opposite[side]])) return 2;
+    let f2bDone = _.isEqual(sidesWithBlock.sort(), ['L', 'R']);
     if(!f2bDone) return 3;
     if(!this.elementsSolved('U', sticker => this.cube.isCornerSticker(sticker))) return 4;
     if(!this.eo()) return 5;
