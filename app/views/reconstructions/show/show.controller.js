@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import Moves from '../../../lib/moves';
-import CfopAnalyzer from '../../../lib/cfop-analyzer';
+import methods from '../../../lib/methods';
 
 export default class ReconstructionsShowController {
   constructor($stateParams, $httpParamSerializer, clipboard, $location, $http, URLSHORTENER_URL) {
@@ -15,8 +15,9 @@ export default class ReconstructionsShowController {
     $http.post(URLSHORTENER_URL, { longUrl: currentUrl })
       .then(response => this.shortUrl = response.data.id);
 
-    let { scramble, solution, time } = $stateParams;
-    let { steps, totalMoveCount } = CfopAnalyzer.analyzeSolution(scramble, solution);
+    /* Set CFOP as the default method in order not to break old links without the `method` parameter. */
+    let { scramble, solution, time, method = 'cfop' } = $stateParams;
+    let { steps, totalMoveCount } = methods[method].analyzer.analyzeSolution(scramble, solution);
     this.steps = steps;
     this.totalMoveCount = totalMoveCount;
 
@@ -29,7 +30,7 @@ export default class ReconstructionsShowController {
     }).join('\n');
 
     let animationParams = {
-      setup: scramble,
+      setup: this.scramble,
       alg: this.formatedSolution,
       title: 'Reconstruction',
       type: 'reconstruction'

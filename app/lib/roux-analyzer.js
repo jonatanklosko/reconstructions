@@ -1,7 +1,7 @@
 import SolutionAnalyzer from './solution-analyzer';
 import * as _ from 'lodash';
 
-class RouxAnalyzer extends SolutionAnalyzer {
+export default class RouxAnalyzer extends SolutionAnalyzer {
   solvedSquares() {
     let squaresPerSide = _.mapValues(this.cube.sides, (stickers, side) => {
       let solvedCorners = stickers.filter(sticker => this.cube.isCornerSticker(sticker) && this.cube.isStickerSolved(sticker));
@@ -96,5 +96,3 @@ class RouxAnalyzer extends SolutionAnalyzer {
     if(stepNumberBefore === 7 && stepNumber === 8) return 'EP';
   }
 }
-
-export default new RouxAnalyzer();

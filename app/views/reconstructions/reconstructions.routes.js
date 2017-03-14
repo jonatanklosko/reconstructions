@@ -10,13 +10,13 @@ export default ($stateProvider) => {
       template: '<ui-view></ui-view>'
     })
     .state('reconstructions.new', {
-      url: '/?scramble&solution&time',
+      url: '/?scramble&solution&time&method',
       template: newTemplate,
       controller: 'ReconstructionsNewController',
       controllerAs: 'vm'
     })
     .state('reconstructions.show', {
-      url: '/show?scramble&solution&time',
+      url: '/show?scramble&solution&time&method',
       template: showTemplate,
       controller: 'ReconstructionsShowController',
       controllerAs: 'vm'

@@ -21,6 +21,12 @@
       <md-card-content>
         <form>
           <div layout-gt-xs="row">
+            <md-input-container class="md-block">
+              <label>Method</label>
+              <md-select ng-model="vm.method">
+                <md-option ng-repeat="(method, methodData) in vm.methods" ng-value="method">{{ methodData.name }}</md-option>
+              </md-select>
+            </md-input-container>
             <md-input-container>
               <label for="time">Time</label>
               <input type="text" name="time" ng-model="vm.time">
