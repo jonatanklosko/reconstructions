@@ -22,9 +22,9 @@
     "test:watch": "karma start spec/karma.conf.js --auto-watch"
   },
   "dependencies": {
-    "angular": "^1.5.8",
-    "angular-animate": "^1.5.8",
-    "angular-aria": "^1.5.8",
+    "angular": "~1.5.8",
+    "angular-aria": "~1.5.8",
+    "angular-animate": "~1.5.8",
     "angular-clipboard": "^1.5.0",
     "angular-material": "^1.1.1",
     "angular-material-data-table": "^0.10.9",
