@@ -7,7 +7,7 @@
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <p ng-if="vm.time">Time: {{ vm.time }}</p>
+        <p ng-if="vm.time">Time: {{ vm.time | number : 2 }}</p>
         <p>Scramble: {{ vm.scramble }}</p>
         <md-divider></md-divider>
         <p class="step" ng-repeat="step in vm.steps">
