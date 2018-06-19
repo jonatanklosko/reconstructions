@@ -1,8 +1,16 @@
-# Node dependencies
-node_modules/
+# NPM dependencies
+/node_modules
 
-# Built assets
-build/
+# Testing
+/coverage
 
-# NPM errors log
-npm-debug.log
+# Production
+/build
+
+# Environment configuration
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
