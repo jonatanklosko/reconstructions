@@ -36,7 +36,7 @@ export default class ReconstructionStatistics extends Component {
       <div>
         <Tabs value={tabIndex} onChange={this.handleTabChange}>
           <Tab label="Move count" />
-          <Tab label="TPS" />
+          {time && <Tab label="TPS" />}
         </Tabs>
         {tabIndex === 0 && (
           <Table>
