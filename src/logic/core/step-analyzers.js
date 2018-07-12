@@ -22,32 +22,34 @@ export const labelCFOPStep = (previous, current) => {
   if (!crossSidePrevious) {
     if (crossSide) return 'x'.repeat(slots) + 'cross';
   } else {
-    const llSide = OPPOSITE_SIDE[crossSidePrevious];
+    const llSidePrevious = OPPOSITE_SIDE[crossSidePrevious];
+    /* Current LL side is the one that has the value of previous LL side. */
+    const llSide = Object.keys(OPPOSITE_SIDE).find(side => current[side] === previous[llSidePrevious]);
     if (slots > slotsPrevious) {
       const pairsLabel = ['1st', '2nd', '3rd', '4th'].slice(slotsPrevious, slots).join(' + ') + ' pair';
       if (slots === 4) {
         const label = lastSlotLabel => `${pairsLabel} / ${lastSlotLabel}`;
         if (sideOriented(current, llSide))
-          return label(sideEdgesOriented(previous, llSide) ? 'CLS' : 'OLS');
+          return label(sideEdgesOriented(previous, llSidePrevious) ? 'CLS' : 'OLS');
         if (!crossBottomEdgesOriented(previous, crossSide) && sideEdgesOriented(current, llSide)) return label('EOLS');
       }
       return pairsLabel;
     } else if (slotsPrevious === 3 && slots === 3) {
-      if (!sideEdgesOriented(previous, llSide) && sideEdgesOriented(current, llSide)) return 'ELS';
+      if (!sideEdgesOriented(previous, llSidePrevious) && sideEdgesOriented(current, llSide)) return 'ELS';
     } else if (slotsPrevious === 4 && slots === 4) {
-      if (!sideEdgesOriented(previous, llSide)) {
+      if (!sideEdgesOriented(previous, llSidePrevious)) {
         if (sideSolved(current, llSide)) return '1LLL';
         if (sideCornersSolved(current, llSide)) return 'OLLCP';
         if (sideOriented(current, llSide)) return 'OLL';
         if (sideEdgesOriented(current, llSide)) return 'EOLL';
-      } else if (!sideOriented(previous, llSide)) {
+      } else if (!sideOriented(previous, llSidePrevious)) {
         if (sideSolved(current, llSide)) return 'ZBLL';
         if (sideCornersSolved(current, llSide)) return 'COLL';
         if (sideOriented(current, llSide)) return 'OCLL';
-      } else if (!sideCornersSolved(previous, llSide)) {
+      } else if (!sideCornersSolved(previous, llSidePrevious)) {
         if (sideSolved(current, llSide)) return 'PLL';
         if (sideCornersSolved(current, llSide)) return 'CPLL';
-      } else if (!sideSolved(previous, llSide)) {
+      } else if (!sideSolved(previous, llSidePrevious)) {
         if (sideSolved(current, llSide)) return 'EPLL';
       } else if (!isSolved(previous) && isSolved(current)) {
         return 'AUF';
