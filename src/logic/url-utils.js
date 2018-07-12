@@ -10,7 +10,7 @@ export const reconstructionToParams = reconstruction =>
 export const reconstructionFromParams = params => ({
   title: params.get('title') || '',
   method: params.get('method') || 'cfop',
-  time: params.get('time') && parseFloat(params.get('time')),
+  time: (params.get('time') && parseFloat(params.get('time'))) || '',
   scramble: params.get('scramble') || '',
   solution: params.get('solution') || ''
 });
