@@ -9,7 +9,7 @@ import ReconstructionViewer from './ReconstructionViewer';
 export default class App extends Component {
   render() {
     return (
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router>
         <div>
           <CssBaseline />
           <Navigation />
