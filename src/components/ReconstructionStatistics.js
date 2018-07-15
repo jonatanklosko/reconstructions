@@ -33,7 +33,7 @@ export default class ReconstructionStatistics extends Component {
     const totalMoveCount = countMoves(flatMap(stepsWithMoveCount, step => step.moves));
 
     return (
-      <div>
+      <div style={{ overflowX: 'auto' }}>
         <Tabs value={tabIndex} onChange={this.handleTabChange}>
           <Tab label="Move count" />
           {time && <Tab label="TPS" />}
