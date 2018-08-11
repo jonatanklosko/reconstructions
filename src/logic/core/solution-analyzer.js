@@ -26,6 +26,6 @@ export const analyzeSolution = (scramble, solution, method) => {
     case 'cfop': return analyzeSolutionWith(scramble, solution, labelCFOPStep);
     case 'roux': return analyzeSolutionWith(scramble, solution, labelRouxStep);
     case 'zz': return analyzeSolutionWith(scramble, solution, labelZZStep);
-    default: throw new Error(`Unsupported method '${method}'. Supported methods are: CFOP, Roux.`);
+    default: throw new Error(`Unsupported method '${method}'. Supported methods are: CFOP, Roux, ZZ.`);
   }
 };
