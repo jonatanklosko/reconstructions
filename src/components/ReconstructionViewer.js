@@ -11,8 +11,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import ReconstructionStatistics from './ReconstructionStatistics';
 
-import { analyzeSolution } from '../logic/core/solution-analyzer';
-import { prettify } from '../logic/core/moves';
+import { analyzeSolution } from 'solution-analyzer';
+import { prettify } from '../logic/moves';
 import { reconstructionFromParams, editReconstructionPath, shortenUrl } from '../logic/url-utils';
 
 export default class ReconstructionViewer extends Component {

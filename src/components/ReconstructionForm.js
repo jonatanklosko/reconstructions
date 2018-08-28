@@ -9,9 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField'
 
-import { analyzeSolution } from '../logic/core/solution-analyzer';
-import { prettify } from '../logic/core/moves';
-
+import { analyzeSolution } from 'solution-analyzer';
+import { prettify } from '../logic/moves';
 import { reconstructionPath } from '../logic/url-utils';
 
 export default class ReconstructionForm extends Component {
@@ -36,7 +35,9 @@ export default class ReconstructionForm extends Component {
     const { title, method, time, scramble, solution } = this.props.reconstruction;
     const { autoFormatting } = this.state;
 
-    const { steps, solved } = analyzeSolution(scramble, solution, method);
+    const { steps, solved } = scramble && solution
+      ? analyzeSolution(scramble, solution, method)
+      : { steps: [], solved: true };
     const formattedSolution = steps.map(step => step.moves.join(' ')).join('\n');
 
     return (

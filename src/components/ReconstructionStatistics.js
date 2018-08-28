@@ -7,8 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { countMoves } from '../logic/core/moves';
-import { flatMap } from '../logic/core/utils';
+import { countMoves } from '../logic/moves';
+import { flatMap } from '../logic/utils';
 
 export default class ReconstructionStatistics extends Component {
   constructor(props) {

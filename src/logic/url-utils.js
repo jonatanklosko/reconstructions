@@ -1,4 +1,4 @@
-import { shrink } from './core/moves';
+import { shrink } from './moves';
 
 export const reconstructionToParams = reconstruction =>
   new URLSearchParams({

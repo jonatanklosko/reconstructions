@@ -1,5 +1,5 @@
 import React from 'react';
-import { shrink } from '../logic/core/moves';
+import { shrink } from '../logic/moves';
 
 const IMAGE_BASE_URL = 'http://cube.crider.co.uk/visualcube.php';
 
