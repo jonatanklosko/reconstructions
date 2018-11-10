@@ -45,7 +45,7 @@ export default class ReconstructionStatistics extends Component {
                 <TableCell>Step</TableCell>
                 {this.metrics.map(metric =>
                   <TableCell key={metric}>
-                    <a href={'https://www.speedsolving.com/wiki/index.php/' + metric.toUpperCase()} target="_blank">
+                    <a href={'https://www.speedsolving.com/wiki/index.php/' + metric.toUpperCase()} target="_blank" rel="noopener noreferrer">
                       {metric.toUpperCase()}
                     </a>
                   </TableCell>

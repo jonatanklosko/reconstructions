@@ -50,7 +50,7 @@ export default class ReconstructionForm extends Component {
           value={title}
           onChange={this.handleInputChange}
         />
-        <FormControl>
+        <FormControl margin="normal">
           <InputLabel>Method</InputLabel>
           <Select
             name="method"
@@ -100,7 +100,7 @@ export default class ReconstructionForm extends Component {
         />
         <div>
           <Button
-            variant="contained"
+            variant="outlined"
             color="secondary"
             component={Link}
             to={reconstructionPath(this.props.reconstruction)}

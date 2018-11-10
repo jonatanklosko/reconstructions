@@ -54,12 +54,12 @@ export default class ReconstructionViewer extends Component {
       <Grid container spacing={16}>
         <Grid item xs={12} md={6}>
           <Paper style={{ padding: 16 }}>
-            <Typography variant="headline">Reconstruction</Typography>
-            {title && <Typography variant="subheading">{title}</Typography>}
-            {time && <Typography variant="subheading">Time: {time.toFixed(2)}</Typography>}
-            <Typography variant="subheading">Scramble: {prettify(scramble)}</Typography>
+            <Typography variant="h5">Reconstruction</Typography>
+            {title && <Typography variant="subtitle1">{title}</Typography>}
+            {time && <Typography variant="subtitle1">Time: {time.toFixed(2)}</Typography>}
+            <Typography variant="subtitle1">Scramble: {prettify(scramble)}</Typography>
             <Divider />
-            <Typography variant="subheading">
+            <Typography variant="subtitle1">
               {steps.map(step =>
                 <p key={step.label} style={{ margin: 0 }}>
                   <span>{step.moves.join(' ')}</span>
@@ -98,7 +98,7 @@ export default class ReconstructionViewer extends Component {
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper style={{ padding: 16 }}>
-            <Typography variant="headline">Statistics</Typography>
+            <Typography variant="h5">Statistics</Typography>
             <ReconstructionStatistics steps={steps} time={time} />
           </Paper>
         </Grid>

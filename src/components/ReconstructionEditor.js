@@ -28,7 +28,7 @@ export default class ReconstructionEditor extends Component {
           <CubeImage scramble={reconstruction.scramble} solution={reconstruction.solution} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Typography variant="headline">Reconstruction</Typography>
+          <Typography variant="h5">Reconstruction</Typography>
           <ReconstructionForm
             reconstruction={reconstruction}
             onChange={this.handleReconstructionChange}

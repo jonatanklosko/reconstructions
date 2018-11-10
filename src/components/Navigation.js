@@ -10,7 +10,7 @@ export default class Navigation extends Component {
     return (
       <AppBar position="static" color="primary">
         <Toolbar>
-          <Typography variant="title" color="inherit" style={{ flexGrow: 1 }}>
+          <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
             <Link to="/">Reconstructions</Link>
           </Typography>
           <IconButton component="a" href="https://github.com/jonatanklosko/reconstructions" target="_blank">
