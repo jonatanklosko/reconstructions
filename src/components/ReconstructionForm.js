@@ -26,6 +26,13 @@ export default class ReconstructionForm extends Component {
     this.props.onChange({ ...this.props.reconstruction, [name]: value });
   };
 
+  handleTimeInputChange = event => {
+    const { value } = event.target;
+    const formatTime = string =>
+      string.replace(',', '.').replace(/[^\d.]/, '');
+    this.props.onChange({ ...this.props.reconstruction, time: formatTime(value) });
+  };
+
   handleOptionChange = event => {
     const { name, checked } = event.target;
     this.setState({ [name]: checked });
@@ -67,7 +74,7 @@ export default class ReconstructionForm extends Component {
           name="time"
           margin="normal"
           value={time}
-          onChange={this.handleInputChange}
+          onChange={this.handleTimeInputChange}
         />
         <TextField
           label="Scramble"
