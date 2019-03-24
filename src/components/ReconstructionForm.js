@@ -19,6 +19,7 @@ export default class ReconstructionForm extends Component {
     this.state = {
       autoFormatting: true
     };
+    this.solutionInputRef = React.createRef();
   }
 
   handleInputChange = event => {
@@ -31,6 +32,15 @@ export default class ReconstructionForm extends Component {
     const formatTime = string =>
       string.replace(',', '.').replace(/[^\d.]/, '');
     this.props.onChange({ ...this.props.reconstruction, time: formatTime(value) });
+  };
+
+  handleSolutionInputChange = event => {
+    const { value } = event.target;
+    const start = prettify(value.slice(0, event.target.selectionStart)).length;
+    this.props.onChange({ ...this.props.reconstruction, solution: value }, () => {
+      this.solutionInputRef.current.selectionStart = start;
+      this.solutionInputRef.current.selectionEnd = start;
+    });
   };
 
   handleOptionChange = event => {
@@ -90,10 +100,11 @@ export default class ReconstructionForm extends Component {
           name="solution"
           margin="normal"
           value={autoFormatting ? formattedSolution : solution}
-          onChange={this.handleInputChange}
+          onChange={this.handleSolutionInputChange}
           fullWidth
           multiline
           inputProps={{ spellCheck: false }}
+          inputRef={this.solutionInputRef}
         />
         <FormControlLabel
           control={

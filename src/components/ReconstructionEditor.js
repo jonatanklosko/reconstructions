@@ -15,8 +15,8 @@ export default class ReconstructionEditor extends Component {
     };
   }
 
-  handleReconstructionChange = reconstruction => {
-    this.setState({ reconstruction });
+  handleReconstructionChange = (reconstruction, callback) => {
+    this.setState({ reconstruction }, callback);
   };
 
   render() {
