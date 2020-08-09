@@ -4,6 +4,8 @@ A web application simplifying the process of reconstructing Rubik's Cube solves.
 Check out [the website](https://reconstructions.jonatanklosko.com).
 The core logic has been extracted to a [separate package](https://github.com/jonatanklosko/solution-analyzer).
 
+![Demo](images/demo.gif)
+
 ## Development
 
 Requirements:
